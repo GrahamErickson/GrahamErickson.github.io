@@ -8,9 +8,10 @@
 		.box {
 			width: 70px;
 			height: 70px;
-			background-color: teal;
+			background-color: rgb(34, 34, 255);
 			font-size: 300%;
 			text-align: center;
+			
 			user-select: none;
 			display: block;
 			position: absolute;
@@ -19,6 +20,7 @@
 		}
 		.board{
 			height: 100vh;
+			background-color: black;
 		}
 	</style>
 	<!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
@@ -48,8 +50,9 @@
 			box.on('click', handleBoxClick);
 
 			// moves the Box to a new position on the screen along the X-Axis
-			function moveBoxTo(newPositionX) {
+			function moveBoxTo(newPositionX, newPositionY) {
 				box.css("left", newPositionX);
+				box.css("top", newPositionY)
 			}
 
 			// changes the text displayed on the Box
@@ -63,6 +66,12 @@
 			
 			// TODO 2 - Variable declarations 
 			var positionX = 0;
+			var positionY = 0;
+			var points = 0;
+			var speed = 10;
+			var speedY = 10;
+			var boardHeight = jQuery(window).height();
+			var randNum = Math.random() * boardWidth;
 
 			
 			/* 
@@ -71,8 +80,21 @@
 			turn it around! 
 			*/
 			function update() {
-				positionX = positionX + 10;
-				moveBoxTo(positionX);
+				positionX = positionX + speed;
+				positionY = positionY + speedY;
+				moveBoxTo(positionX, positionY);
+				if (positionX > boardWidth){
+					speed = -speed;
+				}
+				else if (positionX < 0){
+					speed = -speed;
+				}
+				if (positionY > boardHeight){
+					speedY = -speedY
+				}
+				else if (positionY < 0){
+					speedY = -speedY
+				}
 
 			};
 
@@ -81,9 +103,24 @@
 			it should increase the points total, increase the speed, and move the box to
 			the left side of the screen.
 			*/
-			function handleBoxClick() {
-				console.log(positionX)
-				positionX = 0;
+			function handleBoxClick(speed = speed + 3) {
+				console.log(positionX);
+				positionX = randNum;
+				speedY = speedY + 3;
+				points = points + 1;
+				changeBoxText(points)
+				if (speed === +speed){
+				speed = speed + 3;
+				}
+				else if (speed === -speed){
+				speed = speed - 3;
+				}
+				if (speedY === +speedY){
+				speedY = speedY + 3;
+				}
+				else if (speed === -speedY){
+				speedY = speedY + 3;
+				}
 				// Reassigning the positionX variable to 0 so that the box will move back to the left side of the screen
 
 			};
